@@ -233,12 +233,15 @@ export const removeDomain = [
 ];
 
 export const deleteLink = [
-  param("id", "ID is invalid.")
+  body("ids", "IDs are invalid.")
     .exists({
       checkFalsy: true,
       checkNull: true
     })
-    .isLength({ min: 36, max: 36 })
+    .isArray()
+    .withMessage("IDs must be an array.")
+    .custom((value) => value.every((id) => typeof id === 'string' && id.length === 36))
+    .withMessage("Each ID must be a string of length 36.")
 ];
 
 export const reportLink = [
