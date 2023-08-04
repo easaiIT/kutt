@@ -137,6 +137,7 @@ const Row: FC<RowProps> = ({ index, link, setDeleteModal }) => {
     },
     { withIds: true }
   );
+  const [isSelected, setIsSelected] = useState(false); // Add this line
   const [copied, setCopied] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [qrModal, setQRModal] = useState(false);
@@ -559,6 +560,7 @@ const LinksTable: FC = () => {
     { skip: "0", limit: "10", all: false },
     { withIds: true }
   );
+  const [selectedLinks, setSelectedLinks] = useState([]); // Add this line
 
   const options = formState.values;
   const linkToDelete = links.items[deleteModal];
