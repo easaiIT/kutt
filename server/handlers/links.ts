@@ -160,18 +160,19 @@ export const edit: Handler = async (req, res) => {
 };
 
 export const remove: Handler = async (req, res) => {
-  const link = await query.link.remove({
-    uuid: req.params.id,
+  const ids = req.body.ids;
+  const links = await Promise.all(ids.map(id => query.link.remove({
+    uuid: id,
     ...(!req.user.admin && { user_id: req.user.id })
-  });
+  })));
 
-  if (!link) {
-    throw new CustomError("Could not delete the link");
+  if (links.some(link => !link)) {
+    throw new CustomError("Could not delete some links");
   }
 
   return res
     .status(200)
-    .send({ message: "Link has been deleted successfully." });
+    .send({ message: "Links have been deleted successfully." });
 };
 
 export const report: Handler = async (req, res) => {
